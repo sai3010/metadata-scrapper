@@ -8,6 +8,9 @@
 - Start the server 
     - `npm start`
 
+# Test the applocation 
+- `npm run test` will help checking functionality of the apis
+
 # List of supported Api's
 - `POST` -> http://localhost:3000/get_info
 ```bash
