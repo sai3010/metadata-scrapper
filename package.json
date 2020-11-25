@@ -21,6 +21,7 @@
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "node-json-logger": "0.0.11"
   }
 }
