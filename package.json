@@ -4,7 +4,7 @@
   "description": "scrape",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js"
   },
   "repository": {
@@ -21,6 +21,7 @@
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "node-cache": "^5.1.2",
     "node-json-logger": "0.0.11"
   }
