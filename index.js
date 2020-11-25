@@ -13,6 +13,7 @@ app.post('/get_info', async (req, res) => {
         url = req.body.url
         const Util = new Utils.Utils()
         let stringHTML = await Util.download_content(url)
+        // check cache
         if (Cache.get(url) == undefined) {
             parsedjson = await Util.parseHTML(stringHTML)
             Cache.set(url, parsedjson)

@@ -3,17 +3,21 @@ const cheerio = require('cheerio')
 class Utils {
     async download_content(url)
     {
+    ```
+        This Function downloads the website content and stores it in a variable.
+    ```
     const html = await axios.get(url)
-    // console.log(typeof(html.data))
     return html.data
     }
     async parseHTML(html)
     {
+        ```
+            This function takes the downloaded string , parses it using cheerio to get relavant meta information and returns 
+            a json object
+        ```
         let finalObj ={}
         const chtml = cheerio.load(html)
         // console.log(chtml.html())
-        let head = chtml('head');
-        // console.log(head.html())
         let title = chtml('head title').text()
         let desc = chtml('meta[name="description"]').attr('content')
         let kwd = chtml('meta[name="keywords"]').attr('content')
