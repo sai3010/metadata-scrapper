@@ -1,5 +1,13 @@
 const axios = require('axios').default;
 const cheerio = require('cheerio')
+const AWS = require("aws-sdk");
+AWS.config.update({
+    region: "ap-south-1",
+    endpoint: "https://dynamodb.ap-south-1.amazonaws.com"
+  });
+const docClient = new AWS.DynamoDB.DocumentClient();
+var table = "webmeta";
+
 class Utils {
     async download_content(url)
     {
@@ -34,6 +42,32 @@ class Utils {
         finalObj.ogtype = ogtype
         finalObj.ogurl = ogurl
         return finalObj
+    }
+    async putdata(url,data){
+        var jsondata = {
+            TableName:table,
+            Item:{
+                "url": url,
+                "data":data
+            }
+        };
+        docClient.put(jsondata, function(err, data) {
+            if (err) {
+                console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            } else {
+                console.log("Added item successfully");
+            }
+        });
+    }
+    async getdata(url){
+        var jsondata = {
+            TableName:table,
+            Key:{
+                "url": url
+            }
+        };
+        let resp = docClient.get(jsondata).promise()
+        return resp
     }
 }
 exports.Utils = Utils

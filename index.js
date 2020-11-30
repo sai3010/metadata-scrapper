@@ -2,26 +2,33 @@ const express = require('express')
 const app = express()
 const port = 3000
 const Utils = require('./utils')
-const NodeCache = require("node-cache");
-const Cache = new NodeCache({ checkperiod: 120 });
 var logger = require('./log')
 app.use(express.json())
 
 app.post('/get_info', async (req, res) => {
     try {
         let parsedjson
-        url = req.body.url
+        let url = req.body.url
         const Util = new Utils.Utils()
         let stringHTML = await Util.download_content(url)
         // check cache
-        if (Cache.get(url) == undefined) {
+        let cache_data = await Util.getdata(url)
+        // console.log(cache_data)
+        if (Object.keys(cache_data).length === 0) {
+            cache_data['status'] = false
+        }
+        else {
+            cache_data['status'] = true
+        }
+        if (!cache_data['status']) {
             parsedjson = await Util.parseHTML(stringHTML)
-            Cache.set(url, parsedjson)
+            await Util.putdata(url, parsedjson)
+            console.log(parsedjson)
             parsedjson['fromCache'] = false
             res.send(parsedjson)
         }
         else {
-            parsedjson = Cache.get(url)
+            parsedjson = cache_data.Item.data
             parsedjson['fromCache'] = true
             res.send(parsedjson)
         }
