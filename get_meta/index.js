@@ -1,7 +1,7 @@
 const Utils = require('./utils')
 module.exports = async function (context, req) {
-    process.env.AWS_ACCESS_KEY_ID = "AKIAR5PQPNZY36GHMPUS"
-    process.env.AWS_SECRET_ACCESS_KEY = "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"
+    process.env.AWS_ACCESS_KEY_ID = ""
+    process.env.AWS_SECRET_ACCESS_KEY = ""
     context.log('JavaScript HTTP trigger function processed a request.');
     try {
         let parsedjson
