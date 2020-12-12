@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const Utils = require('./utils')
 var logger = require('./log')
+const serverless = require('serverless-http');
 app.use(express.json())
 
 app.post('/get_info', async (req, res) => {
@@ -43,3 +44,4 @@ app.post('/get_info', async (req, res) => {
 app.listen(port, () => {
     console.log(`server listening at http://localhost:${port}`)
 })
+module.exports.handler = serverless(app);

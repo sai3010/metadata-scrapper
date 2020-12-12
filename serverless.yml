@@ -1,0 +1,39 @@
+# serverless.yml
+service: myService
+
+provider: 
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 1024 # optional, in MB, default is 1024
+  timeout: 10 # optional, in seconds, default is 6
+  versionFunctions: false # optional, default is true
+  stage: "PROD"
+  tracing:
+    lambda: true # optional, enables tracing for all functions (can be true (true equals 'Active') 'Active' or 'PassThrough')
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "*"
+
+functions:
+  scrape:
+    handler: index.handler # required, handler set in AWS Lambda
+    events: # events trigger lambda functions 
+      - http: # this is an API Gateway HTTP event trigger 
+          path: /get_info
+          method: POST 
+          cors: true 
+    name: test-scrape # optional, Deployed Lambda name
+    description: "" # optional, Description to publish to AWS
+    runtime: nodejs12.x # optional overwrite, default is provider runtime
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 10 # optional, in seconds, default is 6
+    provisionedConcurrency: 1 # optional, Count of provisioned lambda instances
+    # reservedConcurrency: 5 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
+    tracing: PassThrough # optional, overwrite, can be 'Active' or 'PassThrough'
