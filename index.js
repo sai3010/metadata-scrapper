@@ -13,27 +13,29 @@ app.post('/get_info', async (req, res) => {
         const Util = new Utils.Utils()
         let stringHTML = await Util.download_content(url)
         // check cache
-        let cache_data = await Util.getdata(url)
+        let cache_data = true
         // console.log(cache_data)
-        if (Object.keys(cache_data).length === 0) {
-            cache_data['status'] = false
-        }
-        else {
-            cache_data['status'] = true
-        }
-        if (!cache_data['status']) {
-            parsedjson = await Util.parseHTML(stringHTML)
-            await Util.putdata(url, parsedjson)
-            console.log(parsedjson)
-            parsedjson['fromCache'] = false
+        // if (Object.keys(cache_data).length === 0) {
+        //     cache_data['status'] = false
+        // }
+        // else {
+        //     cache_data['status'] = true
+        // }
+        // if (!cache_data['status']) {
+        //     parsedjson = await Util.parseHTML(stringHTML)
+        //     await Util.putdata(url, parsedjson)
+        //     console.log(parsedjson)
+        //     parsedjson['fromCache'] = false
+        //     res.send(parsedjson)
+        // }
+        // else {
+        //     parsedjson = cache_data.Item.data
+        //     parsedjson['fromCache'] = true
+        //     res.send(parsedjson)
+        // }
+        // logger.info({ "message": "data sent successfully", "cache": parsedjson['fromCache'] })
+        parsedjson = await Util.parseHTML(stringHTML)
             res.send(parsedjson)
-        }
-        else {
-            parsedjson = cache_data.Item.data
-            parsedjson['fromCache'] = true
-            res.send(parsedjson)
-        }
-        logger.info({ "message": "data sent successfully", "cache": parsedjson['fromCache'] })
     } catch (error) {
         logger.error({ "message": "error while sending data", "error": error.message })
         res.status(500).send({ "message": "server error", "error": error.message })

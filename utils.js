@@ -32,7 +32,12 @@ class Utils {
         let ogtype = chtml('meta[property="og:type"]').attr('content')
         let ogurl = chtml('meta[property="og:url"]').attr('content')
         let ogkeywords = chtml('meta[property="og:keywords"]').attr('content')
-        // console.log(desc)
+        chtml(" table > tbody > tr ").each((index, element) => {
+            const tds = chtml(element).find("td");
+            // console.log(chtml(element).text());
+            const code =chtml(tds[2]).text();
+            console.log(code)
+          });     
         finalObj.title = title
         finalObj.description = desc
         finalObj.ogTitle = ogTitle
